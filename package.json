@@ -1,0 +1,36 @@
+{
+  "name": "karma-systemjs",
+  "version": "0.1.0",
+  "description": "A Karma plugin.  Adapter for SystemJS module loader.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rolaveric/karma-systemjs.git"
+  },
+  "keywords": [
+    "karma-plugin",
+    "karma-adapter",
+    "systemjs"
+  ],
+  "author": "Jason Stone <rolaveric@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rolaveric/karma-systemjs/issues"
+  },
+  "homepage": "https://github.com/rolaveric/karma-systemjs",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-karma": "0.0.4",
+    "karma": ">=0.9"
+  },
+  "peerDependencies": {
+    "karma": ">=0.9",
+    "systemjs": "~0.11.2",
+    "es6-module-loader": "~0.11.2",
+    "traceur": "~0.0.79"
+  }
+}
