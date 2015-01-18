@@ -3,7 +3,7 @@
 
 # Installation
 
-`npm install https://github.com/rolaveric/karma-systemjs`
+`npm install rolaveric/karma-systemjs`
 
 # Karma Configuration
 
