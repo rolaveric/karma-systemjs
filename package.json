@@ -4,7 +4,7 @@
   "description": "A Karma plugin.  Adapter for SystemJS module loader.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jasmine-node ./test/index.spec.js"
+    "test": "jasmine-node ./test/index.spec.js && ./node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "repository": {
     "type": "git",
