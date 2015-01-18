@@ -3,7 +3,7 @@
 
 # Installation
 
-`npm install rolaveric/karma-systemjs`
+`npm install karma-systemjs`
 
 # Karma Configuration
 
@@ -11,11 +11,11 @@ Add karma-systemjs to your list of plugins:
 
 `plugins: ['karma-systemjs', ...]`
 
-Add karma-systemjs to your list of frameworks:
+Add systemjs to your list of frameworks:
 
 `frameworks: ['systemjs', ...]`
 
-Add systemjs configuration:
+Add SystemJS configuration:
 
 ```js
 systemjs: {
@@ -30,7 +30,8 @@ systemjs: {
 		'app/*/**/*.js'
 	],
 
-	// SystemJS configuration specifically for tests. Good for adding test libraries or mock modules
+	// SystemJS configuration specifically for tests, added after your config file.
+	// Good for adding test libraries and mock modules
 	config: {
 		paths: {
 			'angular-mocks': 'bower_components/angular-mocks/angular-mocks.js'
@@ -42,10 +43,10 @@ systemjs: {
 }
 ```
 
-Adding your file patterns under `systemjs.files` is a convenience so you don't need to specify that each file is 'served' but not 'included'.
+Adding file patterns under `systemjs.files` saves you from specifying each file pattern as 'served' but not 'included'.
 
 ```js
-// These end up meaning the same thing
+// These are equivalent
 files: [
 	{pattern: 'app/**/*.js', served: true, included: false, watched: true}
 ],
