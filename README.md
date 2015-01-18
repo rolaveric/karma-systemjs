@@ -1,8 +1,6 @@
 # karma-systemjs
 [Karma](http://karma-runner.github.io/) plugin for using [SystemJS](https://github.com/systemjs/systemjs) as a module loader.
 
-Based off [karma-requirejs](https://github.com/karma-runner/karma-requirejs).
-
 # Installation
 
 `npm install https://github.com/rolaveric/karma-systemjs`
