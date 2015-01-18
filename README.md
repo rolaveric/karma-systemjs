@@ -30,12 +30,14 @@ systemjs: {
 		'app/*/**/*.js'
 	],
 
-	// SystemJS paths configuration specifically for tests
-	paths: {
-		'angular-mocks': 'bower_components/angular-mocks/angular-mocks.js'
+	// SystemJS configuration specifically for tests. Good for adding test libraries or mock modules
+	config: {
+		paths: {
+			'angular-mocks': 'bower_components/angular-mocks/angular-mocks.js'
+		}
 	},
 
-	// Specify the suffix used for test suite file names - default to '_test.js'
+	// Specify the suffix used for test suite file names.  Defaults to .test.js, .spec.js, _test.js, and _spec.js
 	testFileSuffix: '.spec.js'
 }
 ```
@@ -45,7 +47,7 @@ Adding your file patterns under `systemjs.files` is a convenience so you don't n
 ```js
 // These end up meaning the same thing
 files: [
-	{pattern: 'app/**/*.js, served: true, included: false, watched: true}
+	{pattern: 'app/**/*.js', served: true, included: false, watched: true}
 ],
 
 systemjs: {
