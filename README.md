@@ -57,3 +57,7 @@ systemjs: {
 	]
 }
 ```
+
+# Examples
+
+* [angular-seed](https://github.com/rolaveric/angular-seed/tree/es6)

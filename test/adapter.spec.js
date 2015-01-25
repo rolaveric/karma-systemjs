@@ -56,6 +56,18 @@ describe('karmaSystemjsAdapter()', function () {
 		});
 	});
 
+  describe('updatebaseURL()', function () {
+
+    it('Adds "/base" to the start of System.baseURL, after calling System.config()', function () {
+      expect(adapter.updatebaseURL('/app/')).toBe('/base/app/');
+    });
+
+    it('Replaces "./" with "/base/"', function () {
+      expect(adapter.updatebaseURL('./')).toBe('/base/');
+      expect(adapter.updatebaseURL('./app/')).toBe('/base/app/');
+    });
+  });
+
 	describe('run()', function () {
 
 		it('Stops karma from loading automatically by changing karma.loaded to a noop', function () {
