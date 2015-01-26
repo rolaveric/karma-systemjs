@@ -61,3 +61,4 @@ systemjs: {
 # Examples
 
 * [angular-seed](https://github.com/rolaveric/angular-seed/tree/es6)
+* [ngBoilerplate](https://github.com/rolaveric/ngbp/tree/es6)
