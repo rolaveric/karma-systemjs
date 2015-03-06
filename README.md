@@ -3,15 +3,17 @@
 
 # Installation
 
-`npm install karma-systemjs`
+karma-systemjs requires SystemJS, es6-module-loader, and Traceur to be installed too.
+
+`npm install karma-systemjs systemjs es6-module-loader traceur`
 
 # Karma Configuration
 
-Add karma-systemjs to your list of plugins:
+Add `karma-systemjs` to your list of plugins:
 
 `plugins: ['karma-systemjs', ...]`
 
-Add systemjs to your list of frameworks:
+Add `systemjs` to your list of frameworks:
 
 `frameworks: ['systemjs', ...]`
 
