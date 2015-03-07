@@ -17,11 +17,25 @@ describe('initSystemJs', function () {
 		expect(config.files[2].pattern).toMatch(/\/system\.src\.js$/);
 	});
 
+  it('Adds Babel instead of Traceur if the transpiler option is set', function () {
+    config.systemjs.config = {transpiler: 'babel'};
+    initSystemJs(config);
+    expect(config.files[0].pattern).toMatch(/\/babel\/.*?\/browser\.js$/);
+    expect(config.files[1].pattern).toMatch(/\/es6-module-loader\.src\.js$/);
+    expect(config.files[2].pattern).toMatch(/\/system\.src\.js$/);
+  });
+
 	it('Adds file pattern for the SystemJS config file, after the SystemJS libraries', function () {
-		config.systemjs.configFile = 'app/system.conf.js';
+		config.systemjs.configFile = 'test/system.conf.js';
 		initSystemJs(config);
 		expect(config.files[3].pattern).toMatch(/\/system\.conf\.js$/);
 	});
+
+  it('Loads the external SystemJS config file and merges it with the karma config', function() {
+    config.systemjs.configFile = 'test/system.conf.js';
+    initSystemJs(config);
+    expect(config.client.systemjs.config.transpiler).toBe('babel');
+  });
 
 	it('Adds config.systemjs.files to config.files as served but not included file patterns', function () {
 		config.systemjs.files = ['a.js', 'b.js'];
@@ -47,7 +61,7 @@ describe('initSystemJs', function () {
 			'a.js',
 			'b.js'
 		];
-		config.systemjs.configFile = 'app/system.conf.js';
+		config.systemjs.configFile = 'test/system.conf.js';
 		config.systemjs.files = ['c.js', 'd.js'];
 		initSystemJs(config);
 		expect(config.files[4]).toEqual('a.js');
