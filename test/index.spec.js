@@ -1,3 +1,4 @@
+'use strict';
 var initSystemJs = require('../lib/index.js')['framework:systemjs'][1];
 
 describe('initSystemJs', function () {

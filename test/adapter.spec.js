@@ -1,3 +1,4 @@
+'use strict';
 describe('karmaSystemjsAdapter()', function () {
 	var karma, System, Promise, promiseSpy, adapter;
 	beforeEach(function () {
