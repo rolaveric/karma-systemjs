@@ -3,9 +3,15 @@
 
 # Installation
 
-karma-systemjs requires SystemJS, es6-module-loader, and Traceur to be installed too.
+karma-systemjs requires SystemJS and es6-module-loader to be installed.
 
-`npm install karma-systemjs systemjs es6-module-loader traceur`
+`npm install karma-systemjs systemjs es6-module-loader`
+
+If using a transpiler, be sure to install it too. Traceur and Babel are supported:
+
+`npm install traceur`
+
+`npm install babel`
 
 # Karma Configuration
 
@@ -59,6 +65,18 @@ systemjs: {
 	]
 }
 ```
+
+karma-systemjs defaults to using Traceur as transpiler. To use Babel, add the following to the SystemJS configuration:
+
+```js
+systemjs: {
+	config: {
+		transpiler: 'babel'
+	}
+}
+```
+
+The transpiler can also be omitted by setting `transpiler` to `null`.
 
 # Examples
 
