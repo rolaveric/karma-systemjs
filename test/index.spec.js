@@ -26,6 +26,13 @@ describe('initSystemJs', function () {
     expect(config.files[2].pattern).toMatch(/\/system\.src\.js$/);
   });
 
+	it('Omits adding a file pattern for a transpiler if the transpiler option is set to null', function () {
+		config.systemjs.config = {transpiler: null};
+		initSystemJs(config);
+		expect(config.files[0].pattern).toMatch(/\/es6-module-loader\.src\.js$/);
+		expect(config.files[1].pattern).toMatch(/\/system\.src\.js$/);
+	});
+
 	it('Adds file pattern for the SystemJS config file, after the SystemJS libraries', function () {
 		config.systemjs.configFile = 'test/system.conf.js';
 		initSystemJs(config);
