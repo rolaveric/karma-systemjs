@@ -80,5 +80,6 @@ The transpiler can also be omitted by setting `transpiler` to `null`.
 
 # Examples
 
+* [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
 * [angular-seed](https://github.com/rolaveric/angular-seed/tree/es6)
 * [ngBoilerplate](https://github.com/rolaveric/ngbp/tree/es6)
