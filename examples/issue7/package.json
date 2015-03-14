@@ -1,0 +1,25 @@
+{
+  "name": "karma-systemjs-issue7",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^2.1.1",
+    "es6-module-loader": "^0.15.0",
+    "http-server": "^0.7.5",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chai-plugins": "^0.2.4",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-failed-reporter": "0.0.3",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-junit-reporter": "^0.2.2",
+    "karma-mocha": "^0.1.10",
+    "karma-spec-reporter": "0.0.16",
+    "karma-systemjs": "^0.1.6",
+    "karma-traceur-preprocessor": "^0.4.0",
+    "mocha": "^2.2.1",
+    "systemjs": "^0.15.0",
+    "traceur": "0.0.87"
+  }
+}
