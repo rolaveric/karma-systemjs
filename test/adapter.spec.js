@@ -42,6 +42,17 @@ describe('karmaSystemjsAdapter()', function () {
 		});
 	});
 
+  describe('getModuleNameFromPath()', function() {
+
+    it('Removes baseURL prefix and ".js" suffix from paths', function() {
+      expect(adapter.getModuleNameFromPath('/base/app/lib/include.js', System.baseURL)).toBe('lib/include');
+    });
+
+    it('Ignores non-.js extensions', function() {
+      expect(adapter.getModuleNameFromPath('/base/app/lib/include.es6', System.baseURL)).toBe('lib/include.es6');
+    });
+  });
+
 	describe('importTestSuites()', function () {
 
 		it('Filters out the test suites from the map of file names, and imports them as modules', function () {
@@ -116,4 +127,30 @@ describe('karmaSystemjsAdapter()', function () {
 			expect(karma.start).toHaveBeenCalled();
 		});
 	});
+
+  describe('decorateErrorWithHints()', function() {
+
+    it('Converts error objects to strings', function() {
+      expect(typeof adapter.decorateErrorWithHints(new Error('test'), System)).toBe('string');
+    });
+
+    it('Adds hints for Not Found .es6 files', function() {
+      var err = 'Error loading "app/module.es6" at /base/app/module.es6.js';
+      expect(adapter.decorateErrorWithHints(err, System)).toBe(
+        'Error loading "app/module.es6" at /base/app/module.es6.js' +
+        '\nHint: If you use ".es6" as an extension, add this to your SystemJS paths config: {"*.es6": "*.es6"}'
+      );
+    });
+
+    it('Adds hints for Illegal module names starting with /base/', function() {
+      var err = new TypeError('Illegal module name "/base/lib/module"');
+      expect(adapter.decorateErrorWithHints(err, System)).toBe(
+        'TypeError: Illegal module name "/base/lib/module"' +
+        '\nHint: Is the working directory different when you run karma?' +
+        '\nYou may need to change the baseURL of your SystemJS config inside your karma config.' +
+        '\nIt\'s currently checking "/base/app/"' +
+        '\nNote: "/base/" is where karma serves files from.'
+      );
+    });
+  });
 });

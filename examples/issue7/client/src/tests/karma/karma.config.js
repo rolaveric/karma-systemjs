@@ -21,7 +21,7 @@ module.exports = function (config) {
       files: [
         '_build/js/lib/*.js',
         '_build/js/modules/**/*.js',
-        'client/src/app/**/*.spec.js'
+        'client/src/app/**/*.spec.es6'
       ],
       config: {
         transpiler: 'traceur',
@@ -36,11 +36,12 @@ module.exports = function (config) {
           'angular-material':  '_build/js/lib/angular-material.min.js',
           'angular-mocks':     '_build/js/lib/angular-mocks.js',
           'angular-ui-router': '_build/js/lib/angular-ui-router.min.js',
-          'statehelper':       '_build/js/lib/statehelper.min.js'
+          'statehelper':       '_build/js/lib/statehelper.min.js',
+          '*.es6': '*.es6'
         },
-        baseURL: '/',
+        baseURL: '/'
       },
-      testFileSuffix: '.spec.js'
+      testFileSuffix: '.spec.es6'
     },
     //preprocessors: {
     //  'client/src/app/**/*.spec.es6': ['traceur']  // pre-compile tests
@@ -80,4 +81,5 @@ module.exports = function (config) {
 List of differences
 - Disabled traceur preprocessor - let systemjs do that
 - Changed 'client/src/app/...*Spec.es6' to  'client/src/app/...*.spec.es6'
+- Added {'*.es6': '*.es6'} to systemjs.config.paths
  */
