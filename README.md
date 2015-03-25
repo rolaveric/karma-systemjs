@@ -7,6 +7,10 @@ karma-systemjs requires SystemJS and es6-module-loader to be installed.
 
 `npm install karma-systemjs systemjs es6-module-loader`
 
+If testing in PhantomJS, you must install phantomjs-polyfill, as SystemJS >= v0.16 uses `Function.prototype.bind()`.
+
+`npm install phantomjs-polyfill`
+
 If using a transpiler, be sure to install it too. Traceur and Babel are supported:
 
 `npm install traceur`
