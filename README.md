@@ -82,6 +82,21 @@ systemjs: {
 
 The transpiler can also be omitted by setting `transpiler` to `null`.
 
+karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`babel` or `traceur`)
+in the `paths` object of your SystemJS configuration.  
+
+```js
+systemjs: {
+	config: {
+		paths: {
+			'es6-module-loader': 'bower_components/es6-module-loader/dist/es6-module-loader.js'
+		}
+	}
+}
+```
+
+If no path is found, karma-systemjs instead looks for these dependencies in the local `node_modules/` folder.
+
 # Examples
 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
