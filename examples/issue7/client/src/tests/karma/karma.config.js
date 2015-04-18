@@ -1,9 +1,9 @@
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: '../../../../',
     urlRoot: '',
     hostname: 'localhost',
-    frameworks: [ 'systemjs','mocha','chai','chai-as-promised','sinon-chai'],
+    frameworks: ['systemjs', 'mocha', 'chai', 'chai-as-promised', 'sinon-chai'],
     plugins: [
       'karma-mocha',
       'karma-chai',
@@ -26,17 +26,17 @@ module.exports = function (config) {
       config: {
         transpiler: 'traceur',
         paths: {
-          'angular':           '_build/js/lib/angular.min.js',
-          'angular-animate':   '_build/js/lib/angular-animate.min.js',
-          'angular-messages':  '_build/js/lib/angular-messages.min.js',
-          'angular-aria':      '_build/js/lib/angular-aria.min.js',
-          'angular-resource':  '_build/js/lib/angular-resource.min.js',
-          'angular-cookies':   '_build/js/lib/angular-cookies.min.js',
-          'angular-storage':   '_build/js/lib/angular-storage.min.js',
-          'angular-material':  '_build/js/lib/angular-material.min.js',
-          'angular-mocks':     '_build/js/lib/angular-mocks.js',
+          'angular': '_build/js/lib/angular.min.js',
+          'angular-animate': '_build/js/lib/angular-animate.min.js',
+          'angular-messages': '_build/js/lib/angular-messages.min.js',
+          'angular-aria': '_build/js/lib/angular-aria.min.js',
+          'angular-resource': '_build/js/lib/angular-resource.min.js',
+          'angular-cookies': '_build/js/lib/angular-cookies.min.js',
+          'angular-storage': '_build/js/lib/angular-storage.min.js',
+          'angular-material': '_build/js/lib/angular-material.min.js',
+          'angular-mocks': '_build/js/lib/angular-mocks.js',
           'angular-ui-router': '_build/js/lib/angular-ui-router.min.js',
-          'statehelper':       '_build/js/lib/statehelper.min.js',
+          'statehelper': '_build/js/lib/statehelper.min.js',
           '*.es6': '*.es6'
         },
         baseURL: '/'
@@ -78,8 +78,8 @@ module.exports = function (config) {
 };
 
 /*
-List of differences
-- Disabled traceur preprocessor - let systemjs do that
-- Changed 'client/src/app/...*Spec.es6' to  'client/src/app/...*.spec.es6'
-- Added {'*.es6': '*.es6'} to systemjs.config.paths
+ List of differences
+ - Disabled traceur preprocessor - let systemjs do that
+ - Changed 'client/src/app/...*Spec.es6' to  'client/src/app/...*.spec.es6'
+ - Added {'*.es6': '*.es6'} to systemjs.config.paths
  */

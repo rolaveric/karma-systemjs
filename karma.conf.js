@@ -1,14 +1,14 @@
 'use strict';
-module.exports = function (config) {
-	config.set({
-		plugins: ['karma-firefox-launcher', 'karma-jasmine'],
+module.exports = function(config) {
+  config.set({
+    plugins: ['karma-firefox-launcher', 'karma-jasmine'],
 
-		frameworks: ['jasmine'],
+    frameworks: ['jasmine'],
 
-		files: ['lib/adapter.js', 'test/adapter.spec.js'],
+    files: ['lib/adapter.js', 'test/adapter.spec.js'],
 
-		browsers: ['Firefox'],
+    browsers: ['Firefox'],
 
-		autoWatch: true
-	});
+    autoWatch: true
+  });
 };
