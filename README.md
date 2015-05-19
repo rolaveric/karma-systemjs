@@ -11,11 +11,21 @@ If testing in PhantomJS, you must install phantomjs-polyfill, as SystemJS >= v0.
 
 `npm install phantomjs-polyfill`
 
-If using a transpiler, be sure to install it too. Traceur and Babel are supported:
+If using a transpiler, there are two ways for karma-systemjs to find it:
 
-`npm install traceur`
+1: Specify a path to traceur's `traceur.js` or babel's `browser.js` in your SystemJS config:
 
-`npm install babel`
+```js
+System.config({
+	paths: {
+		babel: 'node_modules/babel-core/browser.js'
+	}
+});
+```
+
+2: Install it using npm and karma-systemjs will try to find it:
+
+`npm install traceur` or `npm install babel-core`
 
 # Karma Configuration
 
@@ -102,3 +112,8 @@ If no path is found, karma-systemjs instead looks for these dependencies in the 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
 * [angular-seed](https://github.com/rolaveric/angular-seed/tree/es6)
 * [ngBoilerplate](https://github.com/rolaveric/ngbp/tree/es6)
+
+# Breaking Changes
+
+* v0.4.0: Looks for babel's browser.js under `babel-core` instead of `babel` from `require.resolve()`.  
+Better off setting `paths.babel` in your SystemJS config.
