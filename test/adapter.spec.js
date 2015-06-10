@@ -45,12 +45,13 @@ describe('karmaSystemjsAdapter()', function() {
 
   describe('getModuleNameFromPath()', function() {
 
-    it('Removes baseURL prefix and ".js" suffix from paths', function() {
-      expect(adapter.getModuleNameFromPath('/base/app/lib/include.js', System.baseURL)).toBe('lib/include');
+    it('Removes baseURL prefix', function() {
+      expect(adapter.getModuleNameFromPath('/base/app/lib/include.js', System.baseURL, System)).toBe('lib/include.js');
     });
 
-    it('Ignores non-.js extensions', function() {
-      expect(adapter.getModuleNameFromPath('/base/app/lib/include.es6', System.baseURL)).toBe('lib/include.es6');
+    it('Removes .js extension if System.defaultJSExtensions is true', function() {
+      System.defaultJSExtensions = true;
+      expect(adapter.getModuleNameFromPath('/base/app/lib/include.js', System.baseURL, System)).toBe('lib/include');
     });
   });
 
@@ -65,7 +66,7 @@ describe('karmaSystemjsAdapter()', function() {
       var testFileRegexp = adapter.createTestFileRegexp();
       var result = adapter.importTestSuites(System, files, testFileRegexp);
       expect(result).toEqual([1]);
-      expect(System.import).toHaveBeenCalledWith('src/thing.spec');
+      expect(System.import).toHaveBeenCalledWith('src/thing.spec.js');
     });
   });
 
@@ -95,10 +96,10 @@ describe('karmaSystemjsAdapter()', function() {
       expect(System.config).toHaveBeenCalledWith(123);
     });
 
-    it('Does not call System.config() if no config set', function() {
+    it('Only calls System.config() to set baseURL, if no config set', function() {
       karma.config.systemjs.config = null;
       adapter.run(karma, System, Promise);
-      expect(System.config).not.toHaveBeenCalled();
+      expect(System.config).toHaveBeenCalledWith({baseURL: '/base/'});
     });
 
     it('Adds "/base" to the start of System.baseURL, after calling System.config()', function() {
