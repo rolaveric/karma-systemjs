@@ -115,5 +115,6 @@ If no path is found, karma-systemjs instead looks for these dependencies in the 
 
 # Breaking Changes
 
+* v0.5.0: Updated to work with SystemJS v0.17.1, which comes with it's own [breaking changes](https://github.com/systemjs/systemjs/releases/tag/0.17.0).
 * v0.4.0: Looks for babel's browser.js under `babel-core` instead of `babel` from `require.resolve()`.  
 Better off setting `paths.babel` in your SystemJS config.
