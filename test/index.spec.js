@@ -22,7 +22,7 @@ describe('initSystemJs', function() {
   it('Adds Babel instead of Traceur if the transpiler option is set', function() {
     config.systemjs.config = {transpiler: 'babel'};
     initSystemJs(config);
-    expect(config.files[0].pattern).toMatch(/\/babel\/.*?\/browser\.js$/);
+    expect(config.files[0].pattern).toMatch(/\/babel-core\/.*?\/browser\.js$/);
     expect(config.files[1].pattern).toMatch(/\/es6-module-loader\.src\.js$/);
     expect(config.files[2].pattern).toMatch(/\/system-polyfills\.js$/);
     expect(config.files[3].pattern).toMatch(/\/system\.src\.js$/);
