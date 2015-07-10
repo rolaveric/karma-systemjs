@@ -1,6 +1,6 @@
 {
   "name": "karma-systemjs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A Karma plugin.  Adapter for SystemJS module loader.",
   "main": "lib/index.js",
   "scripts": {
@@ -22,7 +22,9 @@
     "url": "https://github.com/rolaveric/karma-systemjs/issues"
   },
   "homepage": "https://github.com/rolaveric/karma-systemjs",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^3.10.0"
+  },
   "devDependencies": {
     "babel-core": "^5.5.6",
     "es6-module-loader": "^0.17.0",
@@ -32,7 +34,7 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.4",
     "phantomjs-polyfill": "0.0.1",
-    "systemjs": "^0.17.1",
+    "systemjs": "^0.18.4",
     "traceur": "^0.0.90",
     "typescript": "^1.5.0-beta"
   }

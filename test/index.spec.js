@@ -1,5 +1,6 @@
 'use strict';
 var initSystemJs = require('../lib/index.js')['framework:systemjs'][1];
+var _ = require('lodash');
 
 describe('initSystemJs', function() {
   var config;
@@ -62,10 +63,13 @@ describe('initSystemJs', function() {
     expect(config.files[3].pattern).toMatch(/mySystem\.js$/);
   });
 
-  it('Adds file pattern for the SystemJS config file, after the SystemJS libraries', function() {
+  it('Does NOT adds file pattern for the SystemJS config file - only gets read and passed to adapter', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
-    expect(config.files[4].pattern).toMatch(/\/system\.conf\.js$/);
+    var matchingFile = _.find(config.files, function(file) {
+      return /\/system\.conf\.js$/.test(file.pattern);
+    });
+    expect(matchingFile).toBeUndefined();
   });
 
   it('Loads the external SystemJS config file and merges it with the karma config', function() {
@@ -101,9 +105,9 @@ describe('initSystemJs', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     config.systemjs.files = ['c.js', 'd.js'];
     initSystemJs(config);
-    expect(config.files[5]).toEqual('a.js');
-    expect(config.files[6]).toEqual('b.js');
-    expect(config.files[7].pattern).toEqual('./c.js');
+    expect(config.files[4]).toEqual('a.js');
+    expect(config.files[5]).toEqual('b.js');
+    expect(config.files[6].pattern).toEqual('./c.js');
   });
 
   it('Attaches systemjs.testFileSuffix and systemjs.config to client.systemjs', function() {
