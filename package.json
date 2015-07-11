@@ -33,6 +33,8 @@
     "karma": "^0.12.36",
     "karma-firefox-launcher": "^0.1.6",
     "karma-jasmine": "^0.3.4",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "phantomjs": "^1.9.17",
     "phantomjs-polyfill": "0.0.1",
     "systemjs": "^0.18.4",
     "traceur": "^0.0.90",

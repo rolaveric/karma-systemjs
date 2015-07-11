@@ -3,29 +3,23 @@
 
 # Installation
 
-karma-systemjs requires SystemJS and es6-module-loader to be installed.
+Install from npm, along with `systemjs`, `es6-module-loader`, and your transpiler:
 
-`npm install karma-systemjs systemjs es6-module-loader`
+`npm install karma-systemjs systemjs es6-module-loader babel-core`
 
-If testing in PhantomJS, you must install phantomjs-polyfill, as SystemJS >= v0.16 uses `Function.prototype.bind()`.
-
-`npm install phantomjs-polyfill`
-
-If using a transpiler, there are two ways for karma-systemjs to find it:
-
-1: Specify a path to traceur's `traceur.js` or babel's `browser.js` in your SystemJS config:
+Make sure all your dependencies, including SystemJS itself, are specified in your SystemJS config.  
+This is so karma-systemjs can add them to the list of files that karma serves.
 
 ```js
 System.config({
 	paths: {
-		babel: 'node_modules/babel-core/browser.js'
+		'babel': 'node_modules/babel-core/browser.js',
+		'systemjs': 'node_modules/systemjs/dist/system.js',
+		'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
+		'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'
 	}
 });
 ```
-
-2: Install it using npm and karma-systemjs will try to find it:
-
-`npm install traceur` or `npm install babel-core`
 
 # Karma Configuration
 
@@ -105,7 +99,20 @@ systemjs: {
 }
 ```
 
-If no path is found, karma-systemjs instead looks for these dependencies in the local `node_modules/` folder.
+## I'm getting a "TypeError: 'undefined' is not a function" when using PhantomJS
+
+PhantomJS v1.x doesn't provide the `Function.prototype.bind` method, which is used by some transpilers.  
+The best solution is to install `phantomjs-polyfill` and include it in your SystemJS config.
+
+`npm install phantomjs-polyfill`
+
+```js
+System.config({
+	paths: {
+		'phantomjs-polyfill': 'node_modules/phantomjs-polyfill/bind-polyfill.js'
+	}
+});
+```
 
 # Examples
 
