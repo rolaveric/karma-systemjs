@@ -120,4 +120,11 @@ describe('initSystemJs', function() {
       config: 123
     });
   });
+
+  it('override baseURL in config', function() {
+    config.systemjs.config = { baseURL: "abc" };
+    config.systemjs.configFile = 'test/systemWithBaseURL.conf.js';
+    initSystemJs(config);
+    expect(config.systemjs.config.baseURL).toEqual('abc');
+  });  
 });
