@@ -71,6 +71,9 @@ describe('karmaSystemjsAdapter()', function() {
   });
 
   describe('updatebaseURL()', function() {
+    it('Adds "/base" to the start of System.baseURL, after calling System.config()', function() {
+      expect(adapter.updatebaseURL('app')).toBe('/base/app');
+    });
 
     it('Adds "/base" to the start of System.baseURL, after calling System.config()', function() {
       expect(adapter.updatebaseURL('/app/')).toBe('/base/app/');
