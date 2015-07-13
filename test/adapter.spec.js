@@ -125,6 +125,15 @@ describe('karmaSystemjsAdapter()', function() {
       expect(Promise.all).toHaveBeenCalledWith(456);
     });
 
+    it('Imports karma.files that match as test regex', function() {
+      karma.config.systemjs.testFileRegex = 'test';
+      karma.files = {a: true, b: true, c: true};
+      spyOn(adapter, 'importTestSuites').and.returnValue(456);
+      adapter.run(karma, System, Promise);
+      expect(adapter.importTestSuites).toHaveBeenCalledWith(System, karma.files, 'test');
+      expect(Promise.all).toHaveBeenCalledWith(456);
+    });
+
     it('Starts karma once all import promises have resolved', function() {
       adapter.run(karma, System, Promise);
       expect(karma.start).not.toHaveBeenCalled();
