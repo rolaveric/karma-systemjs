@@ -114,6 +114,26 @@ System.config({
 });
 ```
 
+## Can I still use this with `karma-coverage`?
+
+Absolutely, but you'll need to configure `karma-coverage` to use an instrumenter which supports ES6.
+
+- [Isparta](https://github.com/douglasduteil/isparta): Uses [Babel](https://babeljs.io/)
+- [Ismailia](https://github.com/Spote/ismailia): Uses [Traceur](https://github.com/google/traceur-compiler)
+
+```js
+preprocessors: {
+	'src/!(*spec).js': ['coverage'],
+},
+
+coverageReporter: {
+	instrumenters: { isparta : require('isparta') },
+	instrumenter: {
+		'**/*.js': 'isparta'
+	}
+}
+```
+
 # Examples
 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
@@ -122,6 +142,8 @@ System.config({
 
 # Breaking Changes
 
+* v0.7.0: Takes over setting `baseURL` to handle SystemJS v0.18.0 restrictions
+* v0.6.0: Deprecated looking up modules in `node_modules/` using `require.resolve()`
 * v0.5.0: Updated to work with SystemJS v0.17.1, which comes with it's own [breaking changes](https://github.com/systemjs/systemjs/releases/tag/0.17.0).
 * v0.4.0: Looks for babel's browser.js under `babel-core` instead of `babel` from `require.resolve()`.  
 Better off setting `paths.babel` in your SystemJS config.
