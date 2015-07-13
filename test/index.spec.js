@@ -32,7 +32,6 @@ describe('initSystemJs', function() {
   it('Adds Typescript instead of Traceur if the transpiler option is set', function() {
     config.systemjs.config = {transpiler: 'typescript'};
     initSystemJs(config);
-    console.log(config.files[1].pattern);
     expect(config.files[0].pattern).toMatch(/[\/\\]typescript[\/\\].*?[\/\\]typescript\.js$/);
     expect(config.files[1].pattern).toMatch(/\/es6-module-loader\.src\.js$/);
     expect(config.files[2].pattern).toMatch(/\/system-polyfills\.js$/);
@@ -122,9 +121,9 @@ describe('initSystemJs', function() {
   });
 
   it('override baseURL in config', function() {
-    config.systemjs.config = { baseURL: "abc" };
+    config.systemjs.config = {baseURL: 'abc'};
     config.systemjs.configFile = 'test/systemWithBaseURL.conf.js';
     initSystemJs(config);
     expect(config.systemjs.config.baseURL).toEqual('abc');
-  });  
+  });
 });
