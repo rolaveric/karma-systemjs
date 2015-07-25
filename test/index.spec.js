@@ -126,4 +126,10 @@ describe('initSystemJs', function() {
     initSystemJs(config);
     expect(config.systemjs.config.baseURL).toEqual('abc');
   });
+
+  it('Attaches systemjs.testFileRegex to client.systemjs', function() {
+    config.systemjs.testFileRegex = '.test.js';
+    initSystemJs(config);
+    expect(config.client.systemjs.testFileRegex).toEqual('.test.js');
+  });
 });
