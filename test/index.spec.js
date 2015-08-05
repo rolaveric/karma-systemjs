@@ -63,6 +63,18 @@ describe('initSystemJs', function() {
     expect(config.files[3].pattern).toMatch(/mySystem\.js$/);
   });
 
+  it('Overrides paths provided by the external SystemJS config file with systemjs.config.paths', function() {
+    config.systemjs.config = {
+      paths: {
+        'module-a': 'to-patched-version.js'
+      }
+    };
+    config.systemjs.configFile = 'test/system.conf.js';
+    initSystemJs(config);
+
+    expect(config.client.systemjs.config.paths['module-a']).toEqual('to-patched-version.js');
+  });
+
   it('Does NOT adds file pattern for the SystemJS config file - only gets read and passed to adapter', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
