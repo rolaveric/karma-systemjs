@@ -1,6 +1,8 @@
 # karma-systemjs    [![Build Status](https://travis-ci.org/rolaveric/karma-systemjs.png?branch=master)](https://travis-ci.org/rolaveric/karma-systemjs)
 [Karma](http://karma-runner.github.io/) plugin for using [SystemJS](https://github.com/systemjs/systemjs) as a module loader.
 
+`karma-systemjs` works by loading files with `System.import()` instead of including them with `<script/>`, as Karma normally does. 
+
 # Installation
 
 Install from npm, along with `systemjs`, `es6-module-loader`, and your transpiler:
@@ -38,12 +40,9 @@ systemjs: {
 	// Path to your SystemJS configuration file
 	configFile: 'app/system.conf.js',
 
-	// File patterns for your application code, dependencies, and test suites
-	files: [
-		'app/bower_components/angular/angular.js',
-		'app/bower_components/angular-route/angular-route.js',
-		'app/bower_components/angular-mocks/angular-mocks.js',
-		'app/*/**/*.js'
+	// Patterns for files that you want Karma to make available, but not loaded until a module requests them. eg. Third-party libraries.
+	serveFiles: [
+		'lib/**/*.js'
 	],
 
 	// SystemJS configuration specifically for tests, added after your config file.
@@ -52,41 +51,22 @@ systemjs: {
 		paths: {
 			'angular-mocks': 'bower_components/angular-mocks/angular-mocks.js'
 		}
-	},
-
-	// Specify the suffix used for test suite file names.  Defaults to .test.js, .spec.js, _test.js, and _spec.js
-	testFileSuffix: '.spec.js'
-}
-```
-
-Adding file patterns under `systemjs.files` saves you from specifying each file pattern as 'served' but not 'included'.
-
-```js
-// These are equivalent
-files: [
-	{pattern: 'app/**/*.js', served: true, included: false, watched: true}
-],
-
-systemjs: {
-	files: [
-		'app/**/*.js'
-	]
-}
-```
-
-karma-systemjs defaults to using Traceur as transpiler. To use Babel, add the following to the SystemJS configuration:
-
-```js
-systemjs: {
-	config: {
-		transpiler: 'babel'
 	}
 }
 ```
 
+karma-systemjs defaults to using Traceur as transpiler.  
+You can specify another transpiler (eg. `babel` or `typescript`) by adding it to your SystemJS config:
+
+```js
+System.config({
+	transpiler: 'babel'
+})
+```
+
 The transpiler can also be omitted by setting `transpiler` to `null`.
 
-karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`babel` or `traceur`)
+karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`babel`, `traceur`, or `typescript`)
 in the `paths` object of your SystemJS configuration.  
 
 ```js
@@ -142,6 +122,7 @@ coverageReporter: {
 
 # Breaking Changes
 
+* v0.8.0: MAJOR CHANGE! `System.import()` is now used to load every file which would normally be `{included: true}` by Karma, without `karma-systemjs`.
 * v0.7.0: Takes over setting `baseURL` to handle SystemJS v0.18.0 restrictions
 * v0.6.0: Deprecated looking up modules in `node_modules/` using `require.resolve()`
 * v0.5.0: Updated to work with SystemJS v0.17.1, which comes with it's own [breaking changes](https://github.com/systemjs/systemjs/releases/tag/0.17.0).

@@ -1,5 +1,5 @@
 'use strict';
-var initSystemJs = require('../lib/index.js')['framework:systemjs'][1];
+var initSystemJs = require('../lib/framework.js');
 var _ = require('lodash');
 
 describe('initSystemJs', function() {
@@ -90,16 +90,17 @@ describe('initSystemJs', function() {
     expect(config.client.systemjs.config.transpiler).toBe('babel');
   });
 
-  it('Adds config.systemjs.files to config.files as served but not included file patterns', function() {
-    config.systemjs.files = ['a.js', 'b.js'];
+  it('Adds config.systemjs.serveFiles to config.files as served but not included file patterns', function() {
+    config.systemjs.serveFiles = ['a.js', 'b.js'];
     initSystemJs(config);
-    expect(config.files[4]).toEqual({pattern: './a.js', included: false, served: true, watched: true});
-    expect(config.files[5]).toEqual({pattern: './b.js', included: false, served: true, watched: true});
+    expect(config.files[4]).toEqual({pattern: './a.js', included: false, served: true, watched: false});
+    expect(config.files[5]).toEqual({pattern: './b.js', included: false, served: true, watched: false});
   });
 
   it('Adds the basePath to the start of each systemjs.files', function() {
     config.basePath = 'app';
-    config.systemjs.files = ['a.js', 'b.js'];
+    config.files = [];
+    config.systemjs.serveFiles = ['a.js', 'b.js'];
     initSystemJs(config);
     expect(config.files[4].pattern).toMatch('app/a.js');
   });
@@ -109,27 +110,17 @@ describe('initSystemJs', function() {
     expect(config.files[config.files.length - 1].pattern).toMatch(/adapter\.js/);
   });
 
-  it('Preserves patterns already addded to config.files', function() {
+  it('Sets patterns already added to config.files as {included: false}', function() {
     config.files = [
-      'a.js',
-      'b.js'
+      {pattern: 'a.js', included: true},
+      {pattern: 'b.js', included: true}
     ];
     config.systemjs.configFile = 'test/system.conf.js';
-    config.systemjs.files = ['c.js', 'd.js'];
+    config.systemjs.serveFiles = ['c.js', 'd.js'];
     initSystemJs(config);
-    expect(config.files[4]).toEqual('a.js');
-    expect(config.files[5]).toEqual('b.js');
+    expect(config.files[4].included).toBe(false);
+    expect(config.files[5].included).toBe(false);
     expect(config.files[6].pattern).toEqual('./c.js');
-  });
-
-  it('Attaches systemjs.testFileSuffix and systemjs.config to client.systemjs', function() {
-    config.systemjs.config = 123;
-    config.systemjs.testFileSuffix = '.test.js';
-    initSystemJs(config);
-    expect(config.client.systemjs).toEqual({
-      testFileSuffix: '.test.js',
-      config: 123
-    });
   });
 
   it('override baseURL in config', function() {
@@ -139,9 +130,10 @@ describe('initSystemJs', function() {
     expect(config.systemjs.config.baseURL).toEqual('abc');
   });
 
-  it('Attaches systemjs.testFileRegex to client.systemjs', function() {
-    config.systemjs.testFileRegex = '.test.js';
+  it('Attaches importPatterns to client.systemjs', function() {
+    config.files = [{pattern: '/app/**/*.js', included: true}];
     initSystemJs(config);
-    expect(config.client.systemjs.testFileRegex).toEqual('.test.js');
+    expect(config.client.systemjs.importPatterns)
+      .toEqual(['^(?:\\/base\\/app\\/(?:(?!(?:\\/|^)\\.).)*?\\/(?!\\.)(?=.)[^/]*?\\.js)$']);
   });
 });
