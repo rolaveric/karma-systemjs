@@ -114,6 +114,13 @@ coverageReporter: {
 }
 ```
 
+# I'm getting a "window.chai is undefined" error!
+
+`karma-systemjs` hijacks every pattern added to `files` with `{included: true}`, which may include changes applied by other plugins - such as `karma-chai`.  
+The solution is to make sure `systemjs` is the first item in your `frameworks` list, so it won't affect the other frameworks.
+
+`frameworks: ['systemjs', 'chai']`
+
 # Examples
 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
