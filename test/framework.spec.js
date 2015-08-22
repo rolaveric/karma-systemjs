@@ -1,6 +1,7 @@
 'use strict';
 var initSystemJs = require('../lib/framework.js');
 var _ = require('lodash');
+var Minimatch = require("minimatch").Minimatch;
 
 describe('initSystemJs', function() {
   var config;
@@ -133,7 +134,8 @@ describe('initSystemJs', function() {
   it('Attaches importPatterns to client.systemjs', function() {
     config.files = [{pattern: '/app/**/*.js', included: true}];
     initSystemJs(config);
+    var expected = (new Minimatch('/base/app/**/*.js')).makeRe().toString();
     expect(config.client.systemjs.importPatterns)
-      .toEqual(['^(?:\\/base\\/app\\/(?:(?!(?:\\/|^)\\.).)*?\\/(?!\\.)(?=.)[^/]*?\\.js)$']);
+      .toEqual([expected.substring(1, expected.length - 1)]);
   });
 });
