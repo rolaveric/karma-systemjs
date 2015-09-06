@@ -1,4 +1,8 @@
-# karma-systemjs    [![Build Status](https://travis-ci.org/rolaveric/karma-systemjs.png?branch=master)](https://travis-ci.org/rolaveric/karma-systemjs)
+[![Build Status](https://travis-ci.org/rolaveric/karma-systemjs.png?branch=master)](https://travis-ci.org/rolaveric/karma-systemjs)
+[![GitHub version](http://img.shields.io/github/tag/rolaveric/karma-systemjs.svg)](https://github.com/rolaveric/karma-systemjs)
+[![NPM version](http://img.shields.io/npm/v/karma-systemjs.svg)](https://npmjs.org/package/karma-systemjs)
+[![Downloads](http://img.shields.io/npm/dm/karma-systemjs.svg)](https://npmjs.org/package/karma-systemjs)
+# karma-systemjs
 [Karma](http://karma-runner.github.io/) plugin for using [SystemJS](https://github.com/systemjs/systemjs) as a module loader.
 
 `karma-systemjs` works by loading files with `System.import()` instead of including them with `<script/>`, as Karma normally does. 
