@@ -1,6 +1,6 @@
 {
   "name": "karma-systemjs",
-  "version": "0.8.0-beta2",
+  "version": "0.8.0",
   "description": "A Karma plugin.  Adapter for SystemJS module loader.",
   "main": "lib/index.js",
   "scripts": {
