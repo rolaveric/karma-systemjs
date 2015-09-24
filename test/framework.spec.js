@@ -1,7 +1,7 @@
 'use strict';
 var initSystemJs = require('../lib/framework.js');
 var _ = require('lodash');
-var Minimatch = require("minimatch").Minimatch;
+var Minimatch = require('minimatch').Minimatch;
 
 describe('initSystemJs', function() {
   var config;

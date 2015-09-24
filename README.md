@@ -125,6 +125,14 @@ The solution is to make sure `systemjs` is the first item in your `frameworks` l
 
 `frameworks: ['systemjs', 'chai']`
 
+# 'src/**/*Spec.js' only matches files in src's subfolders
+
+This appears to be a quirk in [`minimatch`](https://www.npmjs.com/package/minimatch), the glob engine used by both `karma` and `karma-systemjs`.  
+The problem is that the second `/` is treated as a static part of the pattern. So the shortest path it will match is `src//Spec.js`.
+
+Simplest solution is to double up your patterns - one for the folder, and another for the subfolder.  
+`['src/*Spec.js', 'src/**/*Spec.js']`
+
 # Examples
 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
