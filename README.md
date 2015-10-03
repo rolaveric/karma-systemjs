@@ -133,6 +133,11 @@ The problem is that the second `/` is treated as a static part of the pattern. S
 Simplest solution is to double up your patterns - one for the folder, and another for the subfolder.  
 `['src/*Spec.js', 'src/**/*Spec.js']`
 
+# What if I *need* some files to be included through script tags?
+
+You can add patterns for these files to `systemjs.includeFiles`.
+Any patterns in this array will be kept at the start of the `files` list (ie. Before SystemJS and everything else) as is.
+
 # Examples
 
 * [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)

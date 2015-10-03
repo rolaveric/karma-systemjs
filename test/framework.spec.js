@@ -94,8 +94,8 @@ describe('initSystemJs', function() {
   it('Adds config.systemjs.serveFiles to config.files as served but not included file patterns', function() {
     config.systemjs.serveFiles = ['a.js', 'b.js'];
     initSystemJs(config);
-    expect(config.files[4]).toEqual({pattern: './a.js', included: false, served: true, watched: false});
-    expect(config.files[5]).toEqual({pattern: './b.js', included: false, served: true, watched: false});
+    expect(config.files[4]).toEqual({pattern: './a.js', included: false, served: true, watched: true});
+    expect(config.files[5]).toEqual({pattern: './b.js', included: false, served: true, watched: true});
   });
 
   it('Adds the basePath to the start of each systemjs.files', function() {
@@ -122,6 +122,89 @@ describe('initSystemJs', function() {
     expect(config.files[4].included).toBe(false);
     expect(config.files[5].included).toBe(false);
     expect(config.files[6].pattern).toEqual('./c.js');
+  });
+
+  it('Sets patterns added to config.systemjs.includeFiles as {included: true}', function() {
+    config.files = [
+      {pattern: 'a.js', included: true},
+      {pattern: 'b.js', included: true}
+    ];
+    config.systemjs.configFile = 'test/system.conf.js';
+    config.systemjs.serveFiles = ['c.js', 'd.js'];
+    config.systemjs.includeFiles = [
+      'e.js',
+      {
+        pattern: './f.js',
+        included: true,
+        served: true,
+        watched: true
+      }
+    ];
+    initSystemJs(config);
+    expect(config.files).toEqual([
+      {
+        pattern: './e.js',
+        included: true,
+        served: true,
+        watched: false
+      },
+      {
+        pattern: './f.js',
+        included: true,
+        served: true,
+        watched: true
+      },
+      {
+        pattern: process.cwd() + '/node_modules/babel-core/../../../browser.js',
+        included: true,
+        served: true,
+        watched: false
+      },
+      {
+        pattern: process.cwd() + '/node_modules/es6-module-loader/dist/es6-module-loader.src.js',
+        included: true,
+        served: true,
+        watched: false
+      },
+      {
+        pattern: process.cwd() + '/node_modules/systemjs/dist/system-polyfills.js',
+        included: true,
+        served: true,
+        watched: false
+      },
+      {
+        pattern: process.cwd() + '/node_modules/systemjs/dist/system.src.js',
+        included: true,
+        served: true,
+        watched: false
+      },
+      {
+        pattern: 'a.js',
+        included: false
+      },
+      {
+        pattern: 'b.js',
+        included: false
+      },
+      {
+        pattern: './c.js',
+        included: false,
+        served: true,
+        watched: true
+      },
+      {
+        pattern: './d.js',
+        included: false,
+        served: true,
+        watched: true
+      },
+      {
+        pattern: process.cwd() + '/lib/adapter.js',
+        included: true,
+        served: true,
+        watched: false
+      }
+    ]);
   });
 
   it('override baseURL in config', function() {
