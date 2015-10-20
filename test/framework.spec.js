@@ -219,11 +219,11 @@ describe('initSystemJs', function() {
     initSystemJs(config);
     var expected = (new Minimatch('/base/app/**/*.js')).makeRe().toString();
     expect(config.client.systemjs.importPatterns)
-    .toEqual([expected.substring(1, expected.length - 1)]);
+      .toEqual([expected.substring(1, expected.length - 1)]);
   });
 
   it('Creates importPatterns for absolute paths', function() {
-    config.basePath = '/test'
+    config.basePath = '/test';
     config.files = [{pattern: '/app/**/*.js', included: true}];
     initSystemJs(config);
     var expected = (new Minimatch('/absolute/app/**/*.js')).makeRe().toString();
