@@ -214,6 +214,13 @@ describe('initSystemJs', function() {
     expect(config.systemjs.config.baseURL).toEqual('abc');
   });
 
+  it('Relocates absolute paths in config', function() {
+    config.systemjs.configFile = 'test/systemWithAbsolutePath.conf.js';
+    initSystemJs(config);
+    expect(config.systemjs.config.map['jquery']).toEqual('/base/thirdparty/jquery.js');
+    expect(config.systemjs.config.map['module-a']).toEqual('to-actual-src.js');
+  });
+
   it('Attaches importPatterns to client.systemjs', function() {
     config.files = [{pattern: '/app/**/*.js', included: true}];
     initSystemJs(config);
