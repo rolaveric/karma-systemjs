@@ -79,9 +79,9 @@ describe('karmaSystemjsAdapter()', function() {
     });
 
     it('Passes in systemjs config to System.config(), if set', function() {
-      karma.config.systemjs.config = 123;
+      karma.config.systemjs.config = '{"key": "value"}';
       adapter.run(karma, System, Promise);
-      expect(System.config).toHaveBeenCalledWith(123);
+      expect(System.config).toHaveBeenCalledWith({key: 'value', baseURL: '/base/'});
     });
 
     it('Only calls System.config() to set baseURL, if no config set', function() {
@@ -94,7 +94,7 @@ describe('karmaSystemjsAdapter()', function() {
       System.config.and.callFake(function(config) {
         System.baseURL = config.baseURL;
       });
-      karma.config.systemjs.config = {baseURL: '/app/'};
+      karma.config.systemjs.config = JSON.stringify({baseURL: '/app/'});
       adapter.run(karma, System, Promise);
       expect(System.baseURL).toBe('/base/app/');
     });

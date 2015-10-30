@@ -73,7 +73,7 @@ describe('initSystemJs', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
 
-    expect(config.client.systemjs.config.paths['module-a']).toEqual('to-patched-version.js');
+    expect(JSON.parse(config.client.systemjs.config).paths['module-a']).toEqual('to-patched-version.js');
   });
 
   it('Does NOT adds file pattern for the SystemJS config file - only gets read and passed to adapter', function() {
@@ -88,7 +88,7 @@ describe('initSystemJs', function() {
   it('Loads the external SystemJS config file and merges it with the karma config', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
-    expect(config.client.systemjs.config.transpiler).toBe('babel');
+    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('babel');
   });
 
   it('Adds config.systemjs.serveFiles to config.files as served but not included file patterns', function() {
@@ -219,6 +219,13 @@ describe('initSystemJs', function() {
     initSystemJs(config);
     expect(config.systemjs.config.map['jquery']).toEqual('/base/thirdparty/jquery.js');
     expect(config.systemjs.config.map['module-a']).toEqual('to-actual-src.js');
+  });
+
+  it('Encodes SystemJS config as a JSON string', function() {
+    config.systemjs.config = {baseURL: 'abc'};
+    initSystemJs(config);
+    expect(config.client.systemjs.config)
+      .toBe('{"baseURL":"abc"}');
   });
 
   it('Attaches importPatterns to client.systemjs', function() {
