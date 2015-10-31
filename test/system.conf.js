@@ -2,6 +2,11 @@
 System.config({
   transpiler: 'babel',
   paths: {
-  	'module-a': 'to-actual-src.js'
+    'module-a': 'to-actual-src.js'
+  },
+  meta: {
+    'module-b': {
+      deps: ['fromConfigFile']
+    }
   }
 });

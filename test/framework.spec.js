@@ -89,6 +89,15 @@ describe('initSystemJs', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
     expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('babel');
+    expect(JSON.parse(config.client.systemjs.config).meta['module-b'].deps).toEqual(['fromConfigFile']);
+  });
+
+  it('Overrides array values rather than merging', function() {
+    config.systemjs.configFile = 'test/system.conf.js';
+    config.systemjs.config = {meta: {'module-b': {deps: ['fromKarmaConfig']}}};
+    initSystemJs(config);
+    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('babel');
+    expect(JSON.parse(config.client.systemjs.config).meta['module-b'].deps).toEqual(['fromKarmaConfig']);
   });
 
   it('Adds config.systemjs.serveFiles to config.files as served but not included file patterns', function() {
@@ -217,7 +226,7 @@ describe('initSystemJs', function() {
   it('Relocates absolute paths in config', function() {
     config.systemjs.configFile = 'test/systemWithAbsolutePath.conf.js';
     initSystemJs(config);
-    expect(config.systemjs.config.map['jquery']).toEqual('/base/thirdparty/jquery.js');
+    expect(config.systemjs.config.map.jquery).toEqual('/base/thirdparty/jquery.js');
     expect(config.systemjs.config.map['module-a']).toEqual('to-actual-src.js');
   });
 
