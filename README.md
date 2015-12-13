@@ -146,6 +146,7 @@ Any patterns in this array will be kept at the start of the `files` list (ie. Be
 
 # Breaking Changes
 
+* v0.10.0: Changed `require.resolve()` static path for babel's `browser.js`
 * v0.9.0: Arrays in SystemJS config file are overwritten by arrays in karma config, rather than merged. [Discussion](https://github.com/rolaveric/karma-systemjs/issues/9#issuecomment-152029085) 
 * v0.8.0: MAJOR CHANGE! `System.import()` is now used to load every file which would normally be `{included: true}` by Karma, without `karma-systemjs`.
 * v0.7.0: Takes over setting `baseURL` to handle SystemJS v0.18.0 restrictions

@@ -1,10 +1,10 @@
 {
   "name": "karma-systemjs",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "A Karma plugin.  Adapter for SystemJS module loader.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jasmine-node ./test/framework.spec.js && ./node_modules/karma/bin/karma start karma.conf.js --single-run"
+    "test": "node ./node_modules/jasmine-node/bin/jasmine-node ./test/framework.spec.js && node ./node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "repository": {
     "type": "git",
