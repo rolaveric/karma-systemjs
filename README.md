@@ -17,6 +17,7 @@ Make sure all your dependencies, including SystemJS itself, are specified in you
 This is so karma-systemjs can add them to the list of files that karma serves.
 
 ```js
+// system.conf.js
 System.config({
 	paths: {
 		'babel': 'node_modules/babel-core/browser.js',
@@ -33,13 +34,14 @@ Add `karma-systemjs` to your list of plugins:
 
 `plugins: ['karma-systemjs', ...]`
 
-Add `systemjs` to your list of frameworks:
+Add `systemjs` to your list of frameworks, (NB. must be included as first framework in list):
 
 `frameworks: ['systemjs', ...]`
 
 Add SystemJS configuration:
 
 ```js
+// karma.conf.js
 systemjs: {
 	// Path to your SystemJS configuration file
 	configFile: 'app/system.conf.js',
