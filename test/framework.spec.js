@@ -10,7 +10,18 @@ describe('initSystemJs', function() {
     config = {
       files: [],
       client: {},
-      systemjs: {}
+      systemjs: {
+        config: {
+          paths: {
+            systemjs: 'js/system.src.js',
+            traceur: 'js/traceur.js',
+            babel: 'js/babel.js',
+            'es6-module-loader': 'js/es6-module-loader.src.js',
+            'system-polyfills': 'js/system-polyfills.js',
+            'phantomjs-polyfill': 'js/phantomjs-polyfill.js'
+          }
+        }
+      }
     };
   });
 
@@ -23,16 +34,16 @@ describe('initSystemJs', function() {
   });
 
   it('Adds Babel instead of Traceur if the transpiler option is set', function() {
-    config.systemjs.config = {transpiler: 'babel'};
+    config.systemjs.config.transpiler = 'babel';
     initSystemJs(config);
-    expect(config.files[0].pattern).toMatch(/[\/\\]babel-core[\/\\].*?[\/\\]browser\.js$/);
+    expect(config.files[0].pattern).toMatch(/[\/\\]babel\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
     expect(config.files[2].pattern).toMatch(/[\/\\]system-polyfills\.js$/);
     expect(config.files[3].pattern).toMatch(/[\/\\]system\.src\.js$/);
   });
 
   it('Adds Typescript instead of Traceur if the transpiler option is set', function() {
-    config.systemjs.config = {transpiler: 'typescript'};
+    config.systemjs.config.transpiler = 'typescript';
     initSystemJs(config);
     expect(config.files[0].pattern).toMatch(/[\/\\]typescript[\/\\].*?[\/\\]typescript\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
@@ -41,7 +52,15 @@ describe('initSystemJs', function() {
   });
 
   it('Omits adding a file pattern for a transpiler if the transpiler option is set to null', function() {
-    config.systemjs.config = {transpiler: null};
+    config.systemjs.config.transpiler = null;
+    initSystemJs(config);
+    expect(config.files[0].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
+    expect(config.files[1].pattern).toMatch(/[\/\\]system-polyfills\.js$/);
+    expect(config.files[2].pattern).toMatch(/[\/\\]system\.src\.js$/);
+  });
+
+  it('Omits adding a file pattern for a transpiler if the transpiler option is set to false', function() {
+    config.systemjs.config.transpiler = false;
     initSystemJs(config);
     expect(config.files[0].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]system-polyfills\.js$/);
@@ -49,7 +68,7 @@ describe('initSystemJs', function() {
   });
 
   it('Omits adding a file pattern for a transpiler if the transpiler option is set to "none"', function() {
-    config.systemjs.config = {transpiler: 'none'};
+    config.systemjs.config.transpiler = 'none';
     initSystemJs(config);
     expect(config.files[0].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]system-polyfills\.js$/);
@@ -173,25 +192,25 @@ describe('initSystemJs', function() {
         watched: true
       },
       {
-        pattern: path.join(process.cwd(), 'node_modules/babel-core/lib/api/browser.js'),
+        pattern: path.join('js', 'babel.js'),
         included: true,
         served: true,
         watched: false
       },
       {
-        pattern: path.join(process.cwd(), 'node_modules/es6-module-loader/dist/es6-module-loader.src.js'),
+        pattern: path.join('js', 'es6-module-loader.src.js'),
         included: true,
         served: true,
         watched: false
       },
       {
-        pattern: path.join(process.cwd(), 'node_modules/systemjs/dist/system-polyfills.js'),
+        pattern: path.join('js', 'system-polyfills.js'),
         included: true,
         served: true,
         watched: false
       },
       {
-        pattern: path.join(process.cwd(), 'node_modules/systemjs/dist/system.src.js'),
+        pattern: path.join('js', 'system.src.js'),
         included: true,
         served: true,
         watched: false
