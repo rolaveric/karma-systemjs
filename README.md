@@ -28,6 +28,20 @@ System.config({
 });
 ```
 
+Dependencies can be specified under `paths` or `map`.
+
+```js
+// system.conf.js
+System.config({
+	map: {
+		'babel': 'node_modules/babel-core/browser.js',
+		'systemjs': 'node_modules/systemjs/dist/system.js',
+		'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
+		'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'
+	}
+});
+```
+
 # Karma Configuration
 
 Add `karma-systemjs` to your list of plugins:
@@ -73,7 +87,7 @@ System.config({
 The transpiler can also be omitted by setting `transpiler` to `null`.
 
 karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`babel`, `traceur`, or `typescript`)
-in the `paths` object of your SystemJS configuration.  
+in the `paths` or `map` object of your SystemJS configuration.  
 
 ```js
 systemjs: {
@@ -148,6 +162,7 @@ Any patterns in this array will be kept at the start of the `files` list (ie. Be
 
 # Breaking Changes
 
+* v0.12.0: `phantomjs-polyfill` is only included if found in SystemJS config.
 * v0.11.0: `es6-module-loader` and `system-polyfills` are only included if found in SystemJS config.
 * v0.10.0: Changed `require.resolve()` static path for babel's `browser.js`
 * v0.9.0: Arrays in SystemJS config file are overwritten by arrays in karma config, rather than merged. [Discussion](https://github.com/rolaveric/karma-systemjs/issues/9#issuecomment-152029085) 
