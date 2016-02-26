@@ -156,9 +156,9 @@ Any patterns in this array will be kept at the start of the `files` list (ie. Be
 
 # Examples
 
-* [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
 * [angular-seed](https://github.com/rolaveric/angular-seed/tree/es6)
-* [ngBoilerplate](https://github.com/rolaveric/ngbp/tree/es6)
+* [angular-phonecat](https://github.com/rolaveric/angular-phonecat/tree/es6)
+* [aurelia-typescript-tests](https://github.com/ryanwischkaemper/aurelia-typescript-tests): A great example of using Typescript
 
 # Breaking Changes
 
