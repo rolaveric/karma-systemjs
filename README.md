@@ -162,6 +162,7 @@ Any patterns in this array will be kept at the start of the `files` list (ie. Be
 
 # Breaking Changes
 
+* v0.13.0: Transpiler is only served, not included, forcing SystemJS to load them.
 * v0.12.0: `phantomjs-polyfill` is only included if found in SystemJS config.
 * v0.11.0: `es6-module-loader` and `system-polyfills` are only included if found in SystemJS config.
 * v0.10.0: Changed `require.resolve()` static path for babel's `browser.js`

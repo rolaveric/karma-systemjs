@@ -193,7 +193,7 @@ describe('initSystemJs', function() {
       },
       {
         pattern: path.join('js', 'babel.js'),
-        included: true,
+        included: false,
         served: true,
         watched: false
       },
