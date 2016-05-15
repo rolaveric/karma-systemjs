@@ -11,7 +11,7 @@
 
 Install from npm, along with `systemjs`, `es6-module-loader`, and your transpiler:
 
-`npm install karma-systemjs systemjs es6-module-loader babel-core`
+`npm install karma-systemjs systemjs es6-module-loader systemjs-plugin-babel`
 
 Make sure all your dependencies, including SystemJS itself, are specified in your SystemJS config.  
 This is so karma-systemjs can add them to the list of files that karma serves.
@@ -20,7 +20,8 @@ This is so karma-systemjs can add them to the list of files that karma serves.
 // system.conf.js
 System.config({
 	paths: {
-		'babel': 'node_modules/babel-core/browser.js',
+		'plugin-babel': 'node_modules/systemjs-plugin-babel/plugin-babel.js',
+		'systemjs-babel-build': 'node_modules/systemjs-plugin-babel/systemjs-babel-browser.js',
 		'systemjs': 'node_modules/systemjs/dist/system.js',
 		'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
 		'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'
@@ -34,8 +35,8 @@ Dependencies can be specified under `paths` or `map`.
 // system.conf.js
 System.config({
 	map: {
-		'babel': 'node_modules/babel-core/browser.js',
-		'systemjs': 'node_modules/systemjs/dist/system.js',
+		'plugin-babel': 'node_modules/systemjs-plugin-babel/plugin-babel.js',
+		'systemjs-babel-build': 'node_modules/systemjs-plugin-babel/systemjs-babel-browser.js',
 		'system-polyfills': 'node_modules/systemjs/dist/system-polyfills.js',
 		'es6-module-loader': 'node_modules/es6-module-loader/dist/es6-module-loader.js'
 	}
