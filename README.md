@@ -123,7 +123,7 @@ Absolutely, but you'll need to configure `karma-coverage` to use an instrumenter
 
 ```js
 preprocessors: {
-	'src/!(*spec).js': ['coverage'],
+	'src/!(*spec).js': ['coverage']
 },
 
 coverageReporter: {
@@ -163,6 +163,17 @@ I recommend only importing test suites, not libraries. Libraries should be impor
 Otherwise you can use `systemjs.includeFiles` in your Karma config to include globals before any of your tests run.
 
 Alternatively you can set `systemjs.strictImportSequence` to true, which will chain the `System.import()` promises together to preserve their sequence.
+
+# My tests seem to take a long time to start.
+
+Here's a few hints for speeding up your test runs:
+
+* Make sure you're only watching files that you care about.  
+Instead of specifying just a pattern string, use an object ([Karma doco](http://karma-runner.github.io/0.13/config/files.html)):  
+`{serveFiles: [{pattern: 'node_modules/**/*.js', watched: false}]}`
+* Make sure you're only preprocessing files that you care about.  
+eg. If you're using `karma-coverage`, you'll only want coverage on source code - not node_modules or tests:  
+`{ preprocessors: {'src/!(*spec).js': ['coverage']} }`
 
 # Examples
 
