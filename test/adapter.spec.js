@@ -12,18 +12,19 @@ describe('karmaSystemjsAdapter()', function() {
       },
       files: {}
     };
-    System = {
-      baseURL: '/base/app/',
-      'import': jasmine.createSpy('import').and.returnValue(1),
-      config: jasmine.createSpy('config')
-    };
     promiseSpy = {
       then: jasmine.createSpy('then').and.callFake(function() {
         return promiseSpy;
       })
     };
+    System = {
+      baseURL: '/base/app/',
+      'import': jasmine.createSpy('import').and.returnValue(promiseSpy),
+      config: jasmine.createSpy('config')
+    };
     Promise = {
-      all: jasmine.createSpy('all').and.returnValue(promiseSpy)
+      all: jasmine.createSpy('all').and.returnValue(promiseSpy),
+      resolve: jasmine.createSpy('resolve').and.returnValue(promiseSpy)
     };
     adapter = window.karmaSystemjsAdapter;
   });
@@ -40,18 +41,83 @@ describe('karmaSystemjsAdapter()', function() {
     });
   });
 
-  describe('importFiles()', function() {
+  describe('getMatchingModulesToImport()', function() {
 
-    it('Filters out the test suites from the map of file names, and imports them as modules', function() {
+    it('Filters out filepaths which match a given regexp and returns their moduleName', function() {
       var files = {
         '/base/app/lib/include.js': 1,
         '/base/app/src/thing.js': 1,
         '/base/app/src/thing.spec.js': 1
       };
-      var testFileRegexp = [/^\/base\/.*\.spec\.js/];
-      var result = adapter.importFiles(System, files, testFileRegexp);
-      expect(result).toEqual([1]);
-      expect(System.import).toHaveBeenCalledWith('src/thing.spec.js');
+      var testFileRegexp = /^\/base\/.*\.spec\.js/;
+      expect(adapter.getMatchingModulesToImport(files, testFileRegexp, System)).toEqual([
+        'src/thing.spec.js'
+      ]);
+    });
+  });
+
+  describe('parallelImportFiles()', function() {
+
+    it('Imports all matching files in parallel', function() {
+      var files = {};
+      var testFileRegexps = [/^\/base\/.*\.spec\.js/];
+      spyOn(adapter, 'getMatchingModulesToImport').and.returnValue([
+        'src/first.spec.js',
+        'src/second.spec.js'
+      ]);
+      expect(adapter.parallelImportFiles(System, Promise, files, testFileRegexps)).toBe(promiseSpy);
+      expect(Promise.all).toHaveBeenCalledWith([promiseSpy, promiseSpy]);
+      expect(System.import).toHaveBeenCalledWith('src/first.spec.js');
+      expect(System.import).toHaveBeenCalledWith('src/second.spec.js');
+    });
+  });
+  
+  describe('chainImport()', function() {
+    
+    it('Chains System.import() to a promise when it resolves', function() {
+      expect(adapter.chainImport(promiseSpy, 'moduleName', System)).toBe(promiseSpy);
+      expect(promiseSpy.then.calls.argsFor(0)[0]()).toBe(promiseSpy);
+      expect(System.import).toHaveBeenCalledWith('moduleName');
+    });
+  });
+
+  describe('sequentialImportFiles()', function() {
+
+    it('Imports all matching files in sequence', function() {
+      var files = {};
+      var testFileRegexps = [/^\/base\/.*\.spec\.js/];
+      spyOn(adapter, 'getMatchingModulesToImport').and.returnValue([
+        'src/first.spec.js',
+        'src/second.spec.js'
+      ]);
+      expect(adapter.sequentialImportFiles(System, Promise, files, testFileRegexps)).toBe(promiseSpy);
+
+      // Initial State: System.import has not yet been called until the first promise resolves
+      expect(System.import).not.toHaveBeenCalled();
+
+      // First promise resolves: Only first module imported
+      expect(promiseSpy.then.calls.argsFor(0)[0]()).toBe(promiseSpy);
+      expect(System.import).toHaveBeenCalledWith('src/first.spec.js');
+      expect(System.import).not.toHaveBeenCalledWith('src/second.spec.js');
+
+      // Second promise resolves: Second module imported
+      expect(promiseSpy.then.calls.argsFor(1)[0]()).toBe(promiseSpy);
+      expect(System.import).toHaveBeenCalledWith('src/second.spec.js');
+    });
+  });
+
+  describe('importFiles()', function() {
+
+    it('Calls sequentialImportFiles() if strictImportSequence is true', function() {
+      spyOn(adapter, 'sequentialImportFiles');
+      adapter.importFiles(System, Promise, {}, [], true);
+      expect(adapter.sequentialImportFiles).toHaveBeenCalledWith(System, Promise, {}, []);
+    });
+
+    it('Calls parallelImportFiles() if strictImportSequence is false', function() {
+      spyOn(adapter, 'parallelImportFiles');
+      adapter.importFiles(System, Promise, {}, [], false);
+      expect(adapter.parallelImportFiles).toHaveBeenCalledWith(System, Promise, {}, []);
     });
   });
 
@@ -101,11 +167,12 @@ describe('karmaSystemjsAdapter()', function() {
 
     it('Imports karma.files that match one of the importPatterns', function() {
       karma.config.systemjs.importPatterns = ['test'];
+      karma.config.systemjs.strictImportSequence = true;
       karma.files = {a: true, b: true, c: true};
-      spyOn(adapter, 'importFiles').and.returnValue(456);
+      spyOn(adapter, 'importFiles').and.returnValue(promiseSpy);
       adapter.run(karma, System, Promise);
-      expect(adapter.importFiles).toHaveBeenCalledWith(System, karma.files, [/test/]);
-      expect(Promise.all).toHaveBeenCalledWith(456);
+      expect(adapter.importFiles).toHaveBeenCalledWith(System, Promise, karma.files, [/test/], true);
+      expect(promiseSpy.then).toHaveBeenCalled();
     });
 
     it('Starts karma once all import promises have resolved', function() {

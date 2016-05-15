@@ -15,7 +15,8 @@ describe('initSystemJs', function() {
           paths: {
             systemjs: 'js/system.src.js',
             traceur: 'js/traceur.js',
-            babel: 'js/babel.js',
+            'plugin-babel': 'js/babel.js',
+            'plugin-typescript': 'js/typescript.js',
             'es6-module-loader': 'js/es6-module-loader.src.js',
             'system-polyfills': 'js/system-polyfills.js',
             'phantomjs-polyfill': 'js/phantomjs-polyfill.js'
@@ -34,7 +35,7 @@ describe('initSystemJs', function() {
   });
 
   it('Adds Babel instead of Traceur if the transpiler option is set', function() {
-    config.systemjs.config.transpiler = 'babel';
+    config.systemjs.config.transpiler = 'plugin-babel';
     initSystemJs(config);
     expect(config.files[0].pattern).toMatch(/[\/\\]babel\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
@@ -43,9 +44,9 @@ describe('initSystemJs', function() {
   });
 
   it('Adds Typescript instead of Traceur if the transpiler option is set', function() {
-    config.systemjs.config.transpiler = 'typescript';
+    config.systemjs.config.transpiler = 'plugin-typescript';
     initSystemJs(config);
-    expect(config.files[0].pattern).toMatch(/[\/\\]typescript[\/\\].*?[\/\\]typescript\.js$/);
+    expect(config.files[0].pattern).toMatch(/[\/\\]typescript\.js$/);
     expect(config.files[1].pattern).toMatch(/[\/\\]es6-module-loader\.src\.js$/);
     expect(config.files[2].pattern).toMatch(/[\/\\]system-polyfills\.js$/);
     expect(config.files[3].pattern).toMatch(/[\/\\]system\.src\.js$/);
@@ -77,9 +78,9 @@ describe('initSystemJs', function() {
 
   it('Uses paths provided by the SystemJS config when possible', function() {
     config.systemjs.config = {
-      transpiler: 'babel',
+      transpiler: 'plugin-babel',
       paths: {
-        'babel': 'myBabel.js',
+        'plugin-babel': 'myBabel.js',
         'es6-module-loader': 'myModuleLoader.js',
         'system-polyfills': 'myPolyfills.js',
         'systemjs': 'mySystem.js'
@@ -116,7 +117,7 @@ describe('initSystemJs', function() {
   it('Loads the external SystemJS config file and merges it with the karma config', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     initSystemJs(config);
-    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('babel');
+    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('plugin-babel');
     expect(JSON.parse(config.client.systemjs.config).meta['module-b'].deps).toEqual(['fromConfigFile']);
   });
 
@@ -124,7 +125,7 @@ describe('initSystemJs', function() {
     config.systemjs.configFile = 'test/system.conf.js';
     config.systemjs.config = {meta: {'module-b': {deps: ['fromKarmaConfig']}}};
     initSystemJs(config);
-    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('babel');
+    expect(JSON.parse(config.client.systemjs.config).transpiler).toBe('plugin-babel');
     expect(JSON.parse(config.client.systemjs.config).meta['module-b'].deps).toEqual(['fromKarmaConfig']);
   });
 

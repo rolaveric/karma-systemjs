@@ -76,17 +76,17 @@ systemjs: {
 ```
 
 karma-systemjs defaults to using Traceur as transpiler.  
-You can specify another transpiler (eg. `babel` or `typescript`) by adding it to your SystemJS config:
+You can specify another transpiler (eg. [`plugin-babel`](https://github.com/systemjs/plugin-babel) or [`plugin-typescript`](https://github.com/frankwallis/plugin-typescript)) by adding it to your SystemJS config:
 
 ```js
 System.config({
-	transpiler: 'babel'
+	transpiler: 'plugin-babel'
 })
 ```
 
 The transpiler can also be omitted by setting `transpiler` to `null`.
 
-karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`babel`, `traceur`, or `typescript`)
+karma-systemjs looks up the paths for `es6-module-loader`, `systemjs`, and your transpiler (`plugin-babel`, `traceur`, or `plugin-typescript`)
 in the `paths` or `map` object of your SystemJS configuration.  
 
 ```js
@@ -153,6 +153,16 @@ Simplest solution is to double up your patterns - one for the folder, and anothe
 
 You can add patterns for these files to `systemjs.includeFiles`.
 Any patterns in this array will be kept at the start of the `files` list (ie. Before SystemJS and everything else) as is.
+
+# My imports aren't getting loaded in sequence!
+
+The initial modules are loaded using `Promise.all([System.import(), ...])`, which means it's possible for one module to be imported and run before a previous module was run.  
+This can cause problems if you depend upon this ordering for global modules. eg. `angular` must be loaded before `angular-mocks`.
+
+I recommend only importing test suites, not libraries. Libraries should be imported inside your test suites using `import` or `require()` statements that would maintain the sequence.  
+Otherwise you can use `systemjs.includeFiles` in your Karma config to include globals before any of your tests run.
+
+Alternatively you can set `systemjs.strictImportSequence` to true, which will chain the `System.import()` promises together to preserve their sequence.
 
 # Examples
 
