@@ -138,7 +138,7 @@ describe('karmaSystemjsAdapter()', function() {
 
   describe('run()', function() {
 
-    it('Stops karma from loading automatically by changing karma.loaded to a noop', function() {
+    it('Stops karma from loading automatically by defining karma.loaded', function() {
       karma.loaded = 123;
       adapter.run(karma, System, Promise);
       expect(typeof karma.loaded).toBe('function');
@@ -147,12 +147,14 @@ describe('karmaSystemjsAdapter()', function() {
     it('Passes in systemjs config to System.config(), if set', function() {
       karma.config.systemjs.config = '{"key": "value"}';
       adapter.run(karma, System, Promise);
+      karma.loaded();
       expect(System.config).toHaveBeenCalledWith({key: 'value', baseURL: '/base/'});
     });
 
     it('Only calls System.config() to set baseURL, if no config set', function() {
       karma.config.systemjs.config = null;
       adapter.run(karma, System, Promise);
+      karma.loaded();
       expect(System.config).toHaveBeenCalledWith({baseURL: '/base/'});
     });
 
@@ -162,6 +164,7 @@ describe('karmaSystemjsAdapter()', function() {
       });
       karma.config.systemjs.config = JSON.stringify({baseURL: '/app/'});
       adapter.run(karma, System, Promise);
+      karma.loaded();
       expect(System.baseURL).toBe('/base/app/');
     });
 
@@ -171,12 +174,14 @@ describe('karmaSystemjsAdapter()', function() {
       karma.files = {a: true, b: true, c: true};
       spyOn(adapter, 'importFiles').and.returnValue(promiseSpy);
       adapter.run(karma, System, Promise);
+      karma.loaded();
       expect(adapter.importFiles).toHaveBeenCalledWith(System, Promise, karma.files, [/test/], true);
       expect(promiseSpy.then).toHaveBeenCalled();
     });
 
     it('Starts karma once all import promises have resolved', function() {
       adapter.run(karma, System, Promise);
+      karma.loaded();
       expect(karma.start).not.toHaveBeenCalled();
       promiseSpy.then.calls.argsFor(0)[0]();
       expect(karma.start).toHaveBeenCalled();
