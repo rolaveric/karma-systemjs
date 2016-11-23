@@ -100,6 +100,14 @@ systemjs: {
 }
 ```
 
+SystemJS bundles are excluded by default, they can be included by setting the `useBundles` flag of the systemjs configuration object.
+
+```js
+System.config({
+	useBundles: 'true'
+})
+```
+
 ## I'm getting a "TypeError: 'undefined' is not a function" when using PhantomJS
 
 PhantomJS v1.x doesn't provide the `Function.prototype.bind` method, which is used by some transpilers.  
